@@ -5,8 +5,12 @@ from functools import partial
 
 class Application():
 
+    # list containing all the clippings
+    myClippings = []
+
     def __init__(self, root):
 
+        ''' GUI '''
         self.root = root
         self.root.title("Kindle Notes Exporter")
         self.root.resizable(height=False, width=False)
@@ -37,42 +41,50 @@ class Application():
 
 
     def load_input_file(self):
+        # open My Clippings kindle file
         with open('My Clippings.txt') as file:
             fileContent = file.read()
             self.parseFileContent(fileContent)
 
 
     def parseFileContent(self, fileContent):
+        # separate each element in the file
         elements = fileContent.split('==========')
 
         # remove last element witch is always blank
         elements.pop()
 
+        # parse elements and add to my clippings variable
         for element in elements:
-            test = self.parseElement(element)
-
-        if test is not None:
-            print(test)
+            clipping = self.parseElement(element)
+            
+            if clipping is not None:
+                self.myClippings.append(clipping)            
 
 
     def parseElement(self, element):
+        # separate the elements of a clipping and strip the blank values
         element = element.split('\n')
         element = list(filter(None, element))
 
+        # if element is not a bookmark (len == 3) parse element
         if len(element) == 3:
             parsedElement = {}
             parsedElement['book'] = element[0]
             parsedElement['info'] = self.parseElementInfo(element[1])
             parsedElement['content'] = element[2]
             return parsedElement
-
+        # if it is a bookmark
         else:
             return None
 
         
     def parseElementInfo(self, elementInfo):
-        parsedElementInfo = {}
+        # separate the info present in the line of text
         elementInfo = elementInfo.split(' | ')
+
+        # parse the info according to it's size
+        parsedElementInfo = {}
         if len(elementInfo) == 3:
             parsedElementInfo['type'] = elementInfo[0]
             parsedElementInfo['position'] = elementInfo[1]
