@@ -3,10 +3,25 @@ from tkinter import ttk
 from functools import partial
 
 
+class MyClippings():
+    clippings = []
+
+    def append(self, element):
+        self.clippings.append(element)
+
+    def getBookNames(self):
+        distinctBookNames = set()
+
+        for clipping in self.clippings:
+            distinctBookNames.add(clipping['book'])
+            
+        return list(distinctBookNames)
+
+
 class Application():
 
     # list containing all the clippings
-    myClippings = []
+    myClippings = MyClippings()
 
     def __init__(self, root):
 
@@ -59,7 +74,7 @@ class Application():
             clipping = self.parseElement(element)
             
             if clipping is not None:
-                self.myClippings.append(clipping)            
+                self.myClippings.append(clipping)
 
 
     def parseElement(self, element):
@@ -95,6 +110,14 @@ class Application():
             parsedElementInfo['date'] = elementInfo[1]
 
         return parsedElementInfo
+
+
+    def populateComboBox(self):
+        pass
+
+
+    def filterClippings(self):
+        pass
 
 
     def export(self):
