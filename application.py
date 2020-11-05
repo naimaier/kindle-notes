@@ -37,15 +37,38 @@ class Application():
 
     def load_input_file(self):
         with open('My Clippings.txt') as file:
-            data = file.read()
-            self.parse(data)
+            fileContent = file.read()
+            self.parseFileContent(fileContent)
 
-    def parse(self, data):
-        elements = data.split('==========')
+    def parseFileContent(self, fileContent):
+        elements = fileContent.split('==========')
+
+        # remove last element witch is always blank
+        elements.pop()
+
         for element in elements:
-            self.refineElement(element)
+            test = self.parseElement(element)
 
-    def refineElement(self, element):
+        if test is not None:
+            print(test)
+
+    def parseElement(self, element):
+        element = element.split('\n')
+        element = list(filter(None, element))
+
+        if len(element) == 3:
+            parsedElement = {}
+            parsedElement['book'] = element[0]
+            parsedElement['info'] = self.parseElementInfo(element[1])
+            parsedElement['content'] = element[2]
+            return parsedElement
+
+        else:
+            return None
+
+        
+
+    def parseElementInfo(self, elementInfo):
         pass
 
     def export(self):
