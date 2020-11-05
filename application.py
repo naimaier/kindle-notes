@@ -35,10 +35,12 @@ class Application():
         self.btn_export["command"] = partial(self.export)
         self.btn_export.pack()
 
+
     def load_input_file(self):
         with open('My Clippings.txt') as file:
             fileContent = file.read()
             self.parseFileContent(fileContent)
+
 
     def parseFileContent(self, fileContent):
         elements = fileContent.split('==========')
@@ -51,6 +53,7 @@ class Application():
 
         if test is not None:
             print(test)
+
 
     def parseElement(self, element):
         element = element.split('\n')
@@ -67,9 +70,20 @@ class Application():
             return None
 
         
-
     def parseElementInfo(self, elementInfo):
-        pass
+        parsedElementInfo = {}
+        elementInfo = elementInfo.split(' | ')
+        if len(elementInfo) == 3:
+            parsedElementInfo['type'] = elementInfo[0]
+            parsedElementInfo['position'] = elementInfo[1]
+            parsedElementInfo['date'] = elementInfo[2]
+        else:
+            parsedElementInfo['type'] = elementInfo[0]
+            parsedElementInfo['position'] = None
+            parsedElementInfo['date'] = elementInfo[1]
+
+        return parsedElementInfo
+
 
     def export(self):
         pass
