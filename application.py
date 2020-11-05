@@ -41,6 +41,11 @@ class Application():
             self.parse(data)
 
     def parse(self, data):
+        elements = data.split('==========')
+        for element in elements:
+            self.refineElement(element)
+
+    def refineElement(self, element):
         pass
 
     def export(self):
