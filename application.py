@@ -36,6 +36,11 @@ class Application():
         self.btn_export.pack()
 
     def load_input_file(self):
+        with open('My Clippings.txt') as file:
+            data = file.read()
+            self.parse(data)
+
+    def parse(self, data):
         pass
 
     def export(self):
