@@ -70,6 +70,8 @@ class Application():
             fileContent = file.read()
             self.parseFileContent(fileContent)
 
+        self.populateComboBox()
+
 
     def parseFileContent(self, fileContent):
         # separate each element in the file
@@ -122,7 +124,7 @@ class Application():
 
 
     def populateComboBox(self):
-        pass
+        self.combobox_books['values'] = self.myClippings.getBookNames()
 
 
     def filterClippings(self):
