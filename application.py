@@ -17,6 +17,15 @@ class MyClippings():
             
         return list(distinctBookNames)
 
+    def getClippingsFromBook(self, book):
+        clippingsFromBook = []
+
+        for clipping in self.clippings:
+            if clipping['book'] == book:
+                clippingsFromBook.append(clipping)
+
+        return clippingsFromBook
+
 
 class Application():
 
