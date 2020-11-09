@@ -31,6 +31,7 @@ class Application():
 
     # list containing all the clippings
     myClippings = MyClippings()
+    remove_duplicates = IntVar()
 
     def __init__(self, root):
 
@@ -57,6 +58,10 @@ class Application():
         """ Options """
         self.combobox_books = ttk.Combobox(master=self.main_frame)
         self.combobox_books.pack()
+
+        self.chk_remove_duplicates = Checkbutton(master=self.main_frame, 
+                                                 text="Remove duplicates", 
+                                                 variable=self.remove_duplicates)
 
         """ Export Button """
         self.btn_export = Button(master=self.main_frame, text="Export")
@@ -109,7 +114,7 @@ class Application():
         # separate the info present in the line of text
         elementInfo = elementInfo.split(' | ')
 
-        # parse the info according to it's size
+        # parse according to the amount of info
         parsedElementInfo = {}
         if len(elementInfo) == 3:
             parsedElementInfo['type'] = elementInfo[0]
@@ -128,7 +133,24 @@ class Application():
 
 
     def filterClippings(self):
-        pass
+        if self.remove_duplicates.get == 1:
+            self.checkDuplicates()
+
+
+    def checkDuplicates(self):
+        for clipping in self.myClippings.clippings:
+            if self.isDuplicate(clipping):
+                self.myClippings.clippings.remove(clipping)
+        
+
+    def isDuplicate(self, input_clipping):
+        for clipping in self.myClippings.clippings:
+            if input_clipping['book'] != clipping['book']:
+                break
+            elif input_clipping['content'] in clipping['content']:
+                return True
+
+        return False
 
 
     def export(self):
